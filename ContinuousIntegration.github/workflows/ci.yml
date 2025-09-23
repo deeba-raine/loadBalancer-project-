@@ -1,0 +1,37 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: ["main"] 
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+      #Checkout repo
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      #Setup node.js
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      #Install dependencies
+      - name: Dep Install
+        run: npm install
+
+      #Start all nodes
+      - name: Start lb + servers
+        run: npm run start:all &
+      #Give servers time to boot
+      - name: Start time
+        run: sleep 5
+
+      #Check if responding
+      - name: Lb Check
+        run: curl -v http://localhost:8080 || exit 1
