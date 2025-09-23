@@ -32,6 +32,6 @@ jobs:
       - name: Start time
         run: sleep 5
 
-      #Check if responding
-      - name: Lb Check
-        run: curl -v http://localhost:8080 || exit 1
+      #Run test
+      - name: Run tests
+        run: npm test
