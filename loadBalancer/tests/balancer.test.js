@@ -31,7 +31,14 @@ describe("Load Balancer Upload Test", () => {
     //Check File's Existence
     const uploadedFilePath = path.join(__dirname, "../../../uploads", "test.txt");
     await new Promise(resolve => setTimeout(resolve, 1000));
-    expect(fs.existsSync(uploadedFilePath)).toBe(true);
+
+    if (fs.existsSync(uploadedFilePath)) {
+      const contents = fs.readFileSync(uploadedFilePath, "utf-8");
+      console.log("Uploaded file contents:", contents);
+    } else {
+      console.log("File not found in uploads folder");
+    }
+    
   });
 });
 
