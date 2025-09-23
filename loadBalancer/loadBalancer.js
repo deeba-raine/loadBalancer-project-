@@ -2,7 +2,7 @@
 const http = require("http");
 const fs = require("fs");
 
-// Define your servers
+// Define your servers  
 const servers = [
   { host: "localhost", port: 8081, healthy: true },
   { host: "localhost", port: 8082, healthy: true },
