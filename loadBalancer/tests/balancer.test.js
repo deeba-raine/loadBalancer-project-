@@ -32,6 +32,7 @@ describe("Load Balancer Upload Test", () => {
     const uploadedFilePath = path.join(__dirname, "../../../uploads", "test.txt");
     await new Promise(resolve => setTimeout(resolve, 1000));
 
+    console.log("Checking for file at:", uploadedFilePath);
     if (fs.existsSync(uploadedFilePath)) {
       const contents = fs.readFileSync(uploadedFilePath, "utf-8");
       console.log("Uploaded file contents:", contents);
