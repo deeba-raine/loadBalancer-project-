@@ -30,7 +30,7 @@ jobs:
         run: npm run start:all &
       #Give servers time to boot
       - name: Wait
-        run: npx wait-on http://localhost:8080
+        run: npx wait-on http://127.0.0.1:8080
 
       #Run test
       - name: Run tests
