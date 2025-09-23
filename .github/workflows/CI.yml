@@ -30,7 +30,7 @@ jobs:
         run: npm run start:all &
       #Give servers time to boot
       - name: Wait
-        run: sleep 8
+        run: sleep 5
 
       #Run test
       - name: Run tests
