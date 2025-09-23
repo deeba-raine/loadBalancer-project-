@@ -18,9 +18,6 @@ const testPath = path.join(__dirname, "test.txt");
 beforeAll(() => {
   fs.writeFileSync(testPath, "Hello world!");
 });
-afterAll(() => {
-  if (fs.existsSync(testPath)) fs.unlinkSync(testPath);
-});
 
 //Upload test
 describe("Load Balancer Upload Test", () => {
