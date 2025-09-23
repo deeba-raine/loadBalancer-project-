@@ -6,4 +6,4 @@ describe("Load Balancer Response Test", () => {
     const response = await request("http://localhost:8080").get("/");
     expect(response.status).toBe(200);
   });
-}
+});
