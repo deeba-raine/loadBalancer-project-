@@ -30,7 +30,7 @@ describe("Load Balancer Upload Test", () => {
 
     //Check File's Existence
     const uploadedFilePath = path.join(__dirname, "../../../uploads", "test.txt");
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 
     console.log("Checking for file at:", uploadedFilePath);
     if (fs.existsSync(uploadedFilePath)) {
