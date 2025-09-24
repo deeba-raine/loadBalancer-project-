@@ -35,9 +35,3 @@ jobs:
       #Run test
       - name: Run tests
         run: npm test
-
-      #Temporary Debug
-      - name: List project files
-        run: |
-          pwd
-          ls -R
