@@ -67,23 +67,23 @@ const balancer = http.createServer((clientReq, clientRes) => {
       headers: clientReq.headers,
     },
     (serverRes) => {
-      const duration = Date.now() - start;
+      // Pipe the response directly
       clientRes.writeHead(serverRes.statusCode, serverRes.headers);
-      serverRes.pipe(clientRes, { end: true });
-      log(`${clientReq.method} ${clientReq.url} → ${target.host}:${target.port} → ${serverRes.statusCode} (${duration}ms)`);
+      serverRes.pipe(clientRes); // <-- changed from serverRes.pipe(clientRes, { end: true })
     }
   );
 
-  clientReq.pipe(proxy, { end: true });
+  // Pipe the request directly to the target server
+  clientReq.pipe(proxy); // <-- changed: removed any manual proxy.end()
 
   proxy.on("error", (err) => {
     const duration = Date.now() - start;
     clientRes.writeHead(502);
     clientRes.end("Bad Gateway");
     log(`${clientReq.method} ${clientReq.url} → ${target.host}:${target.port} → ERROR (${duration}ms) ${err.message}`);
-    // Mark server as down immediately
     target.healthy = false;
   });
+
 });
 
 balancer.listen(8080, () => {
