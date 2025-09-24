@@ -59,4 +59,9 @@ app.delete("/delete/:filename", (req, res) => {
   }
 });
 
+// Catch-all route: serve index.html for any unknown path
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
