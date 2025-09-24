@@ -12,7 +12,7 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 
 // Serve static files
 app.use(express.static(uploadDir));
-app.use(express.static("public"));
+app.use("/", express.static(path.join(__dirname, "public")));
 
 // Health check route
 app.get("/health", (req, res) => {
