@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Server</title>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+    }
+
+    input[type="file"] {
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-left: 5px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    li span {
+      flex-grow: 1;
+    }
+
+    .file-actions button {
+      margin-left: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Upload a File</h2>
+  <input type="file" id="fileInput" />
+  <button onclick="uploadFile()">Upload</button>
+
+  <h3>Uploaded Files</h3>
+  <ul id="fileList"></ul>
+
+  <script>
+    async function fetchFiles() {
+      const res = await fetch("/files");
+      const files = await res.json();
+      const fileList = document.getElementById("fileList");
+      fileList.innerHTML = "";
+
+      files.forEach(file => {
+        const li = document.createElement("li");
+
+        const fileName = document.createElement("span");
+        fileName.textContent = file;
+
+        const actionsDiv = document.createElement("div");
+        actionsDiv.className = "file-actions";
+
+        const downloadBtn = document.createElement("button");
+        downloadBtn.textContent = "Download";
+        downloadBtn.onclick = () => {
+          window.location.href = `/download/${file}`;
+        };
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.onclick = async () => {
+          await fetch(`/delete/${file}`, { method: "DELETE" });
+          fetchFiles(); // refresh list
+        };
+
+        actionsDiv.appendChild(downloadBtn);
+        actionsDiv.appendChild(deleteBtn);
+
+        li.appendChild(fileName);
+        li.appendChild(actionsDiv);
+
+        fileList.appendChild(li);
+      });
+    }
+
+    async function uploadFile() {
+      const input = document.getElementById("fileInput");
+      if (!input.files[0]) return alert("Please choose a file!");
+      const formData = new FormData();
+      formData.append("myFile", input.files[0]);
+
+      const res = await fetch("/upload", { method: "POST", body: formData });
+      if (res.ok) {
+        input.value = "";
+        fetchFiles(); // refresh file list
+      } else {
+        alert("Upload failed!");
+      }
+    }
+
+    // Load files when page opens
+    fetchFiles();
+  </script>
+</body>
+</html>
