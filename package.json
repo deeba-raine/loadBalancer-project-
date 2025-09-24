@@ -8,6 +8,7 @@
     "start:server1": "PORT=8081 node server1/server.js",
     "start:server2": "PORT=8082 node server2/server.js",
     "start:server3": "PORT=8083 node server3/server.js",
+    "start:render": "node start-render.js",
     "start:all": "concurrently \"npm run start:server1\" \"npm run start:server2\" \"npm run start:server3\" \"npm run start:balancer\""
   },
   "keywords": [],
