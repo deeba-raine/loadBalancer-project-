@@ -14,6 +14,10 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir);
 app.use(express.static(uploadDir));
 app.use("/", express.static(path.join(__dirname, "public")));
 
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 // ----------------------------
 // ✅ Add this health check route
 app.get("/health", (req, res) => {
